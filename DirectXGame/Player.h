@@ -8,13 +8,13 @@
 class Player {
 public:
 
-	Player();
+	/*Player();
 
-	~Player();
+	~Player();*/
 	///< summary>
 	/// 初期化
 	///</summary>
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle,ViewProjection* viewprojection);
 
 	///< summary>
 	/// 更新
@@ -26,12 +26,7 @@ public:
 	///</summary>
 	void Draw();
 
-	void SetModel(Model* model) { this->model_ = model;}
-	Model* GetModel() { return model_; }
-
-	void SetTextureHandle(uint32_t textureHandle) { this->texturehandle_ = textureHandle; }
-	uint32_t GetTextureHandle() { return texturehandle_; }
-
+	
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -39,4 +34,6 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t texturehandle_ = 0u;
+
+	ViewProjection* viewprojection_ = nullptr;
 };

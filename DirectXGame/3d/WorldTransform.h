@@ -5,6 +5,7 @@
 #include <d3d12.h>
 #include <type_traits>
 #include <wrl.h>
+#include <math.h>
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransform {
@@ -51,6 +52,26 @@ public:
 	/// </summary>
 	/// <returns>定数バッファ</returns>
 	const Microsoft::WRL::ComPtr<ID3D12Resource>& GetConstBuffer() const { return constBuffer_; }
+	void UpdateMatrix();
+
+	// 積
+	Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
+	
+// 1.X軸回転行列
+	Matrix4x4 MakeRotateXMatrix(float radian);
+
+	// 2.Y軸回転行列
+	Matrix4x4 MakeRotateYMatrix(float radian);
+
+	// 3.Z軸回転行列
+	Matrix4x4 MakeRotateZMatrix(float radian);
+
+	// 回転行列の合成
+	Matrix4x4 RotateXYZMatrix(const Vector3& radian);
+
+	// 3次元アフィン変換行列
+	Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+
 
 private:
 	// 定数バッファ

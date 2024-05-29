@@ -4,7 +4,17 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { delete model_; }
+GameScene::~GameScene() {
+	delete model_;
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			delete worldTransformBlock;
+		}
+	}
+	worldTransformBlocks_.clear();
+
+	delete debugCamera_;
+}
 
 void GameScene::Initialize() {
 
@@ -12,29 +22,100 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	//ファイルを指定してテクスチャを読み込む
+	// ファイルを指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("magnet1.png");
 
-	//3Dモデルの生成
+	// 3Dモデルの生成
 	model_ = Model::Create();
 
-	//ワールドトランスフォームの初期化
+	modelBlock_ = Model::CreateFromOBJ("cube");
+
+	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-	//ビュープロジェクションンの初期化
+	// ビュープロジェクションンの初期化
 	viewProjection_.Initialize();
 
-	//自キャラの生成
+	// 自キャラの生成
 	player_ = new Player();
 
 	// 自キャラの初期化
-	player_->Initialize(model_,textureHandle_,&viewProjection_);
-	
+	player_->Initialize(model_, textureHandle_, &viewProjection_);
+
+	// モデルデータの生成
+
+	// 要素数
+	const uint32_t kNumBlockHorizonal = 20;
+	const uint32_t kNumBlockVirtical = 20;
+
+	// ブロック一個分の横幅
+	const float kBlockWidth = 2.0f;
+	const float kBlockHeight = 2.0f;
+
+	// 要素数を変更する
+	worldTransformBlocks_.resize(kNumBlockVirtical);
+	for (uint32_t i = 0; i < kNumBlockHorizonal; ++i) {
+		worldTransformBlocks_[i].resize(kNumBlockHorizonal);
+	}
+
+	// キューブの生成
+	for (uint32_t i = 0; i < kNumBlockHorizonal; ++i) {
+		for (uint32_t j = 0; j < kNumBlockVirtical; ++j) {
+			if ((i+j)%2 == 0) {
+				continue;
+			}
+			worldTransformBlocks_[i][j] = new WorldTransform();
+			worldTransformBlocks_[i][j]->Initialize();
+			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
+			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
+		}
+	}
+
+	// デバッグカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
 }
 
 void GameScene::Update() {
-//自キャラの更新
+	// 自キャラの更新
 	player_->Update();
 
+	// ブロックの更新
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if (!worldTransformBlock) {
+				continue;
+			}
+
+			// 平行移動
+			Matrix4x4 result{
+			    1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, worldTransformBlock->translation_.x, worldTransformBlock->translation_.y, worldTransformBlock->translation_.z,
+			    1.0f};
+
+			// 平行移動だけ代入
+			worldTransformBlock->matWorld_ = result;
+
+			// 定数バッファに転送する
+			worldTransformBlock->TransferMatrix();
+		}
+	}
+
+	debugCamera_->Update();
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_0)) {
+		isDebugCameraActive_ = !isDebugCameraActive_;
+	}
+#endif
+
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		// ビュープロジェクション行列の更新と転送
+		viewProjection_.UpdateMatrix();
+	}
 }
 
 void GameScene::Draw() {
@@ -48,6 +129,8 @@ void GameScene::Draw() {
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
+	///
+
 	/// </summary>
 
 	// スプライト描画後処理
@@ -63,10 +146,19 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	//3Dモデル描画
+	// 3Dモデル描画
 	/*model_->Draw(worldTransform_, viewProjection_, textureHandle_);*/
-	//自キャラの描画
+	// 自キャラの描画
 	player_->Draw();
+
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if (!worldTransformBlock)
+				continue;
+
+			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
+		}
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

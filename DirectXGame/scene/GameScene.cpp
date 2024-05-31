@@ -85,16 +85,7 @@ void GameScene::Update() {
 				continue;
 			}
 
-			// 平行移動
-			Matrix4x4 result{
-			    1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, worldTransformBlock->translation_.x, worldTransformBlock->translation_.y, worldTransformBlock->translation_.z,
-			    1.0f};
-
-			// 平行移動だけ代入
-			worldTransformBlock->matWorld_ = result;
-
-			// 定数バッファに転送する
-			worldTransformBlock->TransferMatrix();
+			worldTransformBlock->UpdateMatrix();
 		}
 	}
 

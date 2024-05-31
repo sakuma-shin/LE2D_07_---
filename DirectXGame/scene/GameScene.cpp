@@ -14,6 +14,8 @@ GameScene::~GameScene() {
 	worldTransformBlocks_.clear();
 
 	delete debugCamera_;
+
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -33,6 +35,7 @@ void GameScene::Initialize() {
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	// ビュープロジェクションンの初期化
+
 	viewProjection_.Initialize();
 
 	// 自キャラの生成
@@ -72,6 +75,17 @@ void GameScene::Initialize() {
 
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
+
+	// 天球モデルの生成
+	modelSkydome_ = Model::CreateFromOBJ("SkyDome", true);
+
+	// テクスチャハンドル
+	skyDometextureHandle_ = TextureManager::Load("sky_sphere.png");
+
+	skydome_ = new Skydome();
+
+	skydome_->Initialize(modelSkydome_, skyDometextureHandle_, &viewProjection_);
+	
 }
 
 void GameScene::Update() {
@@ -150,6 +164,8 @@ void GameScene::Draw() {
 			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
+
+	skydome_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

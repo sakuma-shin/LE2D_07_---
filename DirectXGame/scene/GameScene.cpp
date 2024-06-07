@@ -195,7 +195,7 @@ void GameScene::GenerateBlocks() {
 		for (uint32_t j = 0; j < numBlockHorizonal; ++j) {
 			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) {
 				WorldTransform* worldTransform = new WorldTransform();
-				worldTransformBlocks_[i][j]->Initialize();
+				worldTransform->Initialize();
 				worldTransformBlocks_[i][j] = worldTransform;
 				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
 			}

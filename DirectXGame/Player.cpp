@@ -6,6 +6,8 @@ void Player::Initialize(Model* model, ViewProjection* viewprojection, const Vect
 	// 引数として受け取ったデータをメンバ変数に記録する
 	model_ = model;
 
+	texturehandle_ = textureHandle;
+
 	// ワールド変換の初期化
 	viewprojection_ = viewprojection;
 

@@ -54,6 +54,9 @@ public:
 	const Microsoft::WRL::ComPtr<ID3D12Resource>& GetConstBuffer() const { return constBuffer_; }
 	void UpdateMatrix();
 
+	// 加算
+	Vector3 Add(const Vector3& v1, const Vector3& v2);
+
 	// 積
 	Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 	

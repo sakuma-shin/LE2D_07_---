@@ -3,7 +3,10 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include"Input.h"
 #include <cassert>
+#include<numbers>
+#include<algorithm>
 
 class Player {
 public:
@@ -14,7 +17,7 @@ public:
 	///< summary>
 	/// 初期化
 	///</summary>
-	void Initialize(Model* model, uint32_t textureHandle,ViewProjection* viewprojection);
+	void Initialize(Model* model,ViewProjection* viewprojection, const Vector3& position);
 
 	///< summary>
 	/// 更新
@@ -28,6 +31,12 @@ public:
 
 	
 private:
+
+	enum class LRDirection { 
+		kRight,
+		kLeft,
+	};
+
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 	// モデル
@@ -35,5 +44,14 @@ private:
 	// テクスチャハンドル
 	uint32_t texturehandle_ = 0u;
 
+	
 	ViewProjection* viewprojection_ = nullptr;
+
+	Vector3 velocity_ = {};
+
+	static inline const float kAcceleration = 0.05f;
+	static inline const float kAttenuation = 0.05f;
+	static inline const float kLimitSpeed = 8.0f;
+
+	LRDirection lrDirection_ = LRDirection::kRight;
 };

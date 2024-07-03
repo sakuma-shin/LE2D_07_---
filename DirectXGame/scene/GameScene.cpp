@@ -32,7 +32,7 @@ void GameScene::Initialize() {
 	// 3Dモデルの生成
 	model_ = Model::Create();
 
-	modelBlock_ = Model::CreateFromOBJ("cube");
+	modelBlock_ = Model::CreateFromOBJ("block");
 
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -43,8 +43,7 @@ void GameScene::Initialize() {
 	// 自キャラの生成
 	player_ = new Player();
 
-	// 自キャラの初期化
-	player_->Initialize(model_, textureHandle_, &viewProjection_);
+	
 
 	// モデルデータの生成
 
@@ -78,6 +77,11 @@ void GameScene::Initialize() {
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	
 	GenerateBlocks();
+
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
+
+	// 自キャラの初期化
+	player_->Initialize(model_, &viewProjection_, playerPosition);
 }
 
 void GameScene::Update() {

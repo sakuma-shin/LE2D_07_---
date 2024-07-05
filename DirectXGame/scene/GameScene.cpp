@@ -40,6 +40,13 @@ void GameScene::Initialize() {
 
 	viewProjection_.Initialize();
 
+	//カメラコントローラの初期化
+	cameraController_ = new CameraController();
+	cameraController_->Initialize();
+	cameraController_->SetTarget(player_);
+	cameraController_->Reset();
+
+
 	// 自キャラの生成
 	player_ = new Player();
 
@@ -117,6 +124,9 @@ void GameScene::Update() {
 		// ビュープロジェクション行列の更新と転送
 		viewProjection_.UpdateMatrix();
 	}
+
+	cameraController_->Update();
+
 }
 
 void GameScene::Draw() {

@@ -31,7 +31,8 @@ public:
 	///</summary>
 	void Draw();
 
-	
+	const WorldTransform& GetWorldTransform()const { return worldTransform_; };
+
 private:
 
 	enum class LRDirection { 

@@ -27,10 +27,10 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	// ファイルを指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("magnet1.png");
+	textureHandle_ = TextureManager::Load("player.png");
 
 	// 3Dモデルの生成
-	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("player");
 
 	modelBlock_ = Model::CreateFromOBJ("block");
 
@@ -81,7 +81,7 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 
 	// 自キャラの初期化
-	player_->Initialize(model_, &viewProjection_, playerPosition);
+	player_->Initialize(model_, textureHandle_,&viewProjection_, playerPosition);
 }
 
 void GameScene::Update() {

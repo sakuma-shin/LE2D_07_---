@@ -1,12 +1,14 @@
 #pragma once
+#define NOMINMAX
 #include "Model.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <algorithm>
 #include"Input.h"
 #include <cassert>
 #include<numbers>
-#include<algorithm>
+#include"easing.h"
 
 class Player {
 public:
@@ -17,7 +19,7 @@ public:
 	///< summary>
 	/// 初期化
 	///</summary>
-	void Initialize(Model* model,ViewProjection* viewprojection, const Vector3& position);
+	void Initialize(Model* model,uint32_t textureHandle,ViewProjection* viewProjection, const Vector3& position);
 
 	///< summary>
 	/// 更新
@@ -54,4 +56,18 @@ private:
 	static inline const float kLimitSpeed = 8.0f;
 
 	LRDirection lrDirection_ = LRDirection::kRight;
+
+	//旋回開始時の角度
+	float turnFirstRotationY_ = 0.0f;
+	//旋回タイマー
+	float turnTimer_ = 0.0f;
+
+	//旋回時間<秒>
+	static inline const float kTimeTurn = 0.3f;
+
+	bool onGround_ = true;
+
+	static inline const float kGravityAcceleration = 0.05f;
+	static inline const float kJumpAcceleration = 0.5f;
+	static inline const float kLimitFallSpeed = 8.0f;
 };

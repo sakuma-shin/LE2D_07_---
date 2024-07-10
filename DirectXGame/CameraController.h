@@ -1,5 +1,6 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include"MathUtilityFortext.h"
 
 //前方宣言
 class Player;
@@ -14,6 +15,8 @@ public:
 	void Update();
 
 	void SetTarget(Player* target) { target_ = target; };
+
+	ViewProjection& GetViewProjection() { return viewProjection_; }
 
 	void Reset();
 

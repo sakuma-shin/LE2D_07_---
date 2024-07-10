@@ -14,7 +14,7 @@ void CameraController::Reset() {
 	const WorldTransform& targetWorldTransform = target_->GetWorldTransform();
 
 //追従対象とオフセットからカメラの座標を計算
-	viewProjection_.translation_ = worldTransform_->Add2(targetWorldTransform.translation_ ,targetOffset_);
+	viewProjection_.translation_ = Add2(targetWorldTransform.translation_ ,targetOffset_);
 	//行列を更新する
 	viewProjection_.UpdateMatrix();
 

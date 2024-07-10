@@ -54,7 +54,7 @@ void Player::Update() {
 				}
 			}
 			// 加速/減速
-			velocity_ = worldTransform_.Add(velocity_, acceleration);
+			velocity_ = Add(velocity_, acceleration);
 
 			// 最大速度制限
 			velocity_.x = std::clamp(velocity_.x, -kLimitSpeed, kLimitSpeed);
@@ -123,7 +123,7 @@ void Player::Update() {
 
 
 	// 移動
-	worldTransform_.translation_ = worldTransform_.Add(worldTransform_.translation_, velocity_);
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	// 行列計算
 	worldTransform_.UpdateMatrix();
 }

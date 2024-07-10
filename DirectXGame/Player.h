@@ -9,6 +9,7 @@
 #include <cassert>
 #include<numbers>
 #include"easing.h"
+#include"MathUtilityFortext.h"
 
 class Player {
 public:

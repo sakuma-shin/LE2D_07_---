@@ -34,6 +34,8 @@ public:
 
 	const WorldTransform& GetWorldTransform()const { return worldTransform_; };
 
+	const Vector3& GetVelocity() const { return velocity_; }
+
 private:
 
 	enum class LRDirection { 
@@ -53,9 +55,9 @@ private:
 
 	Vector3 velocity_ = {};
 
-	static inline const float kAcceleration = 0.05f;
-	static inline const float kAttenuation = 0.05f;
-	static inline const float kLimitSpeed = 8.0f;
+	static inline const float kAcceleration = 0.01f;
+	static inline const float kAttenuation = 0.03f;
+	static inline const float kLimitSpeed = 4.0f;
 
 	LRDirection lrDirection_ = LRDirection::kRight;
 
@@ -71,5 +73,5 @@ private:
 
 	static inline const float kGravityAcceleration = 0.05f;
 	static inline const float kJumpAcceleration = 0.5f;
-	static inline const float kLimitFallSpeed = 8.0f;
+	static inline const float kLimitFallSpeed = 2.0f;
 };

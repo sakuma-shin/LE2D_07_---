@@ -25,3 +25,7 @@ Matrix4x4 RotateXYZMatrix(const Vector3& radian);
 
 // 3次元アフィン変換行列
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+
+Vector3 Lerp(const Vector3& a, const Vector3& b, float t);
+
+Vector3 Multiply(float scalar, const Vector3& v);

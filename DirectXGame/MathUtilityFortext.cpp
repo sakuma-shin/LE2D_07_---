@@ -147,3 +147,22 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 
 	return result;
 }
+
+Vector3 Lerp(const Vector3& a, const Vector3& b, float t) {
+	Vector3 result;
+	result.x = a.x + (b.x - a.x) * t;
+	result.y = a.y + (b.y - a.y) * t;
+	result.z = a.z + (b.z - a.z) * t;
+	return result;
+}
+
+// スカラー倍
+Vector3 Multiply(float scalar, const Vector3& v) {
+	Vector3 result;
+
+	result.x = v.x * scalar;
+	result.y = v.y * scalar;
+	result.z = v.z * scalar;
+
+	return result;
+}

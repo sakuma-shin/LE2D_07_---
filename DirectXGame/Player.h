@@ -11,6 +11,8 @@
 #include"easing.h"
 #include"MathUtilityFortext.h"
 
+class MapChipField;
+
 class Player {
 public:
 
@@ -35,6 +37,8 @@ public:
 	const WorldTransform& GetWorldTransform()const { return worldTransform_; };
 
 	const Vector3& GetVelocity() const { return velocity_; }
+
+	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
 private:
 
@@ -70,6 +74,8 @@ private:
 	static inline const float kTimeTurn = 0.3f;
 
 	bool onGround_ = true;
+
+	MapChipField* mapChipField_ = nullptr;
 
 	static inline const float kGravityAcceleration = 0.05f;
 	static inline const float kJumpAcceleration = 0.5f;

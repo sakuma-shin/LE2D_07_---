@@ -94,6 +94,7 @@ void GameScene::Initialize() {
 	CameraController::Rect cameraArea = {12.0f, 100.0f - 12.0f, 6.0f, 6.0f};
 	cameraController_->SetMovableArea(cameraArea);
 
+	
 }
 
 void GameScene::Update() {

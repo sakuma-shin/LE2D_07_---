@@ -11,8 +11,28 @@
 #include"easing.h"
 #include"MathUtilityFortext.h"
 
+class MapChipField;
+
 class Player {
 public:
+
+	// マップとの当たり判定情報
+	struct CollisionMapInfo {
+		bool ceiling = false;
+		bool landing = false;
+		bool hitWall = false;
+		Vector3 move;
+	};
+
+	enum Corner {
+		kRightBottom,
+		kLeftBottom,
+		kRightTop,
+		kLeftTop,
+
+		kNumCorner // 要素数
+
+	};
 
 	/*Player();
 
@@ -32,9 +52,29 @@ public:
 	///</summary>
 	void Draw();
 
+	void MoveInput();
+
 	const WorldTransform& GetWorldTransform()const { return worldTransform_; };
 
 	const Vector3& GetVelocity() const { return velocity_; }
+
+	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+
+	void HitMap(CollisionMapInfo& info);
+
+	void HitMapTop(CollisionMapInfo& info);
+
+	void HitMapBottom(CollisionMapInfo& info);
+
+	void HitMapRight(CollisionMapInfo& info);
+
+	void HitMapLeft(CollisionMapInfo& info);
+
+	Vector3 CornerPosition(const Vector3& center, Corner corner);
+
+	void HitMapMove(const CollisionMapInfo& info);
+
+	void HitMapProc(const CollisionMapInfo& info);
 
 private:
 
@@ -42,6 +82,8 @@ private:
 		kRight,
 		kLeft,
 	};
+
+	
 
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -74,4 +116,12 @@ private:
 	static inline const float kGravityAcceleration = 0.05f;
 	static inline const float kJumpAcceleration = 0.5f;
 	static inline const float kLimitFallSpeed = 2.0f;
+
+	static inline const float kWidth = 0.0f;
+	static inline const float kHeight = 0.0f;
+
+	static inline const float kBlank = 1.0f;
+
+	//マップチップによるフィールド
+	MapChipField* mapChipField_ = nullptr;
 };

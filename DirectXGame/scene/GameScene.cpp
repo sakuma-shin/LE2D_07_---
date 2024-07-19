@@ -40,7 +40,9 @@ void GameScene::Initialize() {
 
 	viewProjection_.Initialize();
 
-	
+	mapChipField_ = new MapChipField();
+
+	mapChipField_->Initialize();
 
 	// 自キャラの生成
 	player_ = new Player();
@@ -85,6 +87,7 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initialize(model_, textureHandle_,&viewProjection_, playerPosition);
 
+	player_->SetMapChipField(mapChipField_);
 	// カメラコントローラの初期化
 	cameraController_ = new CameraController();
 	cameraController_->Initialize();

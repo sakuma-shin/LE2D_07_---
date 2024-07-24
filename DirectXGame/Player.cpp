@@ -138,9 +138,9 @@ void Player::InputMove() {
 void Player::CheckHitMap(CollisionMapInfo& info) {
 
 	CheckMapCeiling(info);
-	HitMapBottom(info);
+	/*HitMapBottom(info);
 	HitMapRight(info);
-	HitMapLeft(info);
+	HitMapLeft(info);*/
 }
 
 void Player::CheckMapCeiling(CollisionMapInfo& info) {

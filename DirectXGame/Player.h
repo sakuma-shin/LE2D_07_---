@@ -64,11 +64,11 @@ public:
 
 	void CheckMapCeiling(CollisionMapInfo& info);
 
-	void HitMapBottom(CollisionMapInfo& info);
+	/*void HitMapBottom(CollisionMapInfo& info);
 
 	void HitMapRight(CollisionMapInfo& info);
 
-	void HitMapLeft(CollisionMapInfo& info);
+	void HitMapLeft(CollisionMapInfo& info);*/
 
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 

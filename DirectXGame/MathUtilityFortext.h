@@ -40,7 +40,7 @@ Vector3 operator*(const Vector3& v, float s);
 
 // 代入演算子オーバーロード
 // Vector3の足し算
-Vector3& operator+=(Vector3& v1, Vector3& v2);
+Vector3& operator+=(Vector3& v1, const Vector3& v2);
 
 // 2項演算子オーバーロード
 // Vector3の足し算

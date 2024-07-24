@@ -52,7 +52,7 @@ public:
 	///</summary>
 	void Draw();
 
-	void MoveInput();
+	void InputMove();
 
 	const WorldTransform& GetWorldTransform()const { return worldTransform_; };
 
@@ -60,9 +60,9 @@ public:
 
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
-	void HitMap(CollisionMapInfo& info);
+	void CheckHitMap(CollisionMapInfo& info);
 
-	void HitMapTop(CollisionMapInfo& info);
+	void CheckMapCeiling(CollisionMapInfo& info);
 
 	void HitMapBottom(CollisionMapInfo& info);
 
@@ -72,9 +72,11 @@ public:
 
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 
-	void HitMapMove(const CollisionMapInfo& info);
+	void CheckMapMove(const CollisionMapInfo& info);
 
 	void HitMapProc(const CollisionMapInfo& info);
+
+	void AnimateTurn();
 
 private:
 

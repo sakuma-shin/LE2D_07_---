@@ -44,4 +44,4 @@ Vector3& operator+=(Vector3& v1, Vector3& v2);
 
 // 2項演算子オーバーロード
 // Vector3の足し算
-Vector3 operator+(Vector3& v1, Vector3& v2);
+const Vector3 operator+(Vector3& v1, Vector3& v2);

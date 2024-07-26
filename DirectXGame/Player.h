@@ -64,17 +64,19 @@ public:
 
 	void CheckMapCeiling(CollisionMapInfo& info);
 
-	/*void HitMapBottom(CollisionMapInfo& info);
+	void CheckHitMapBottom(CollisionMapInfo& info);
 
-	void HitMapRight(CollisionMapInfo& info);
+	void CheckHitMapRight(CollisionMapInfo& info);
 
-	void HitMapLeft(CollisionMapInfo& info);*/
+	void CheckHitMapLeft(CollisionMapInfo& info);
 
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 
 	void CheckMapMove(const CollisionMapInfo& info);
 
 	void HitMapProc(const CollisionMapInfo& info);
+
+	void CheckMapLanding(CollisionMapInfo& info);
 
 	void AnimateTurn();
 
@@ -92,7 +94,7 @@ private:
 	// モデル
 	Model* model_ = nullptr;
 	// テクスチャハンドル
-	uint32_t texturehandle_ = 0u;
+	uint32_t textureHandle_ = 0u;
 
 	
 	ViewProjection* viewprojection_ = nullptr;
@@ -119,10 +121,11 @@ private:
 	static inline const float kJumpAcceleration = 0.5f;
 	static inline const float kLimitFallSpeed = 2.0f;
 
-	static inline const float kWidth = 0.0f;
-	static inline const float kHeight = 0.0f;
+	static inline const float kWidth = 1.0f;
+	static inline const float kHeight = 1.0f;
 
 	static inline const float kBlank = 1.0f;
+	static inline const float kAttenuationLanding = 0.03f;
 
 	//マップチップによるフィールド
 	MapChipField* mapChipField_ = nullptr;

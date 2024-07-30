@@ -78,6 +78,8 @@ public:
 
 	void CheckMapLanding(CollisionMapInfo& info);
 
+	void CheckHitWall(const CollisionMapInfo& info);
+
 	void AnimateTurn();
 
 private:
@@ -126,6 +128,8 @@ private:
 
 	static inline const float kBlank = 1.0f;
 	static inline const float kAttenuationLanding = 0.03f;
+
+	static inline const float kAttenuationWall = 0.5f;
 
 	//マップチップによるフィールド
 	MapChipField* mapChipField_ = nullptr;

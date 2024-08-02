@@ -456,6 +456,10 @@ void Player::CheckMapLanding(CollisionMapInfo& info) {
 			indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightBottom] + kShift);
 			mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 
+			 if (mapChipType == MapChipType::kBlock) {
+				hit = true;
+			}
+
 			if (!hit) {
 				// 空中状態に切り替える
 				onGround_ = false;

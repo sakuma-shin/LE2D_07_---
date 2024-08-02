@@ -98,7 +98,7 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 
 
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(5, 18);
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(18, 18);
 	//敵の初期化
 	enemy_->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);
 
@@ -188,6 +188,8 @@ void GameScene::Draw() {
 	/*model_->Draw(worldTransform_, viewProjection_, textureHandle_);*/
 	// 自キャラの描画
 	player_->Draw();
+
+	enemy_->Draw();
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {

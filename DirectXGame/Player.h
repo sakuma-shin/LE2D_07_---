@@ -108,6 +108,7 @@ private:
 	static inline const float kLimitSpeed = 4.0f;
 
 	LRDirection lrDirection_ = LRDirection::kRight;
+	
 
 	//旋回開始時の角度
 	float turnFirstRotationY_ = 0.0f;

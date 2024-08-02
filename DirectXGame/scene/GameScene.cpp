@@ -18,6 +18,8 @@ GameScene::~GameScene() {
 	delete modelSkydome_;
 
 	delete mapChipField_;
+
+	delete enemy_;
 }
 
 void GameScene::Initialize() {
@@ -29,8 +31,13 @@ void GameScene::Initialize() {
 	// ファイルを指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("player.png");
 
+	// ファイルを指定してテクスチャを読み込む
+	enemyTextureHandle_ = TextureManager::Load("enemy.png");
+
 	// 3Dモデルの生成
 	model_ = Model::CreateFromOBJ("player");
+
+	enemyModel_ = Model::CreateFromOBJ("enemy");
 
 	modelBlock_ = Model::CreateFromOBJ("block");
 
@@ -47,7 +54,8 @@ void GameScene::Initialize() {
 	// 自キャラの生成
 	player_ = new Player();
 
-	
+	//敵の生成
+	enemy_ = new Enemy();
 
 	// モデルデータの生成
 
@@ -88,6 +96,12 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_,&viewProjection_, playerPosition);
 
 	player_->SetMapChipField(mapChipField_);
+
+
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(5, 18);
+	//敵の初期化
+	enemy_->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);
+
 	// カメラコントローラの初期化
 	cameraController_ = new CameraController();
 	cameraController_->Initialize();
@@ -102,6 +116,9 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	// 自キャラの更新
 	player_->Update();
+
+	//敵の更新
+	enemy_->Update();
 
 	// ブロックの更新
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {

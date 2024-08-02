@@ -13,6 +13,7 @@
 #include"Skydome.h"
 #include"MapChipField.h"
 #include"CameraController.h"
+#include"Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -55,8 +56,12 @@ private: // メンバ変数
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
+	uint32_t enemyTextureHandle_ = 0;
+
 	//モデル
 	Model* model_ = nullptr;
+
+	Model* enemyModel_ = nullptr;
 
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
@@ -65,6 +70,8 @@ private: // メンバ変数
 
 	//自キャラ
 	Player* player_ = nullptr;
+
+	Enemy* enemy_ = nullptr;
 
 	Model* modelBlock_ = nullptr;
 

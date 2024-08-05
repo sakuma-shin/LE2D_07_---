@@ -1,4 +1,7 @@
 #include"MathUtilityFortext.h"
+
+
+
 // 加算
 Vector3 Add(const Vector3& v1, const Vector3& v2) {
 	Vector3 result;
@@ -167,6 +170,10 @@ Vector3 Multiply(float scalar, const Vector3& v) {
 	return result;
 }
 
+
+
+
+
 Vector3& operator*=(Vector3& v, float s) { 
 	v.x *= s;
 	v.y *= s;
@@ -203,4 +210,10 @@ Vector3& operator-=(Vector3& lhv, const Vector3& rhv) {
 const Vector3 operator-(Vector3& v1, Vector3& v2) { return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z}; }
 const Vector3 operator+(Vector3& v1, Vector3& v2) { return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z}; }
 
-
+bool IsCollision(const AABB& a, const AABB& b) { 
+	if (a.min.x <= b.max.x && a.max.x >= b.min.x && a.min.y <= b.max.y && a.max.y >= b.min.y && a.min.z <= b.max.z && a.max.z >= b.min.z) {
+		return true;
+	} else {
+		return false;
+	}
+}

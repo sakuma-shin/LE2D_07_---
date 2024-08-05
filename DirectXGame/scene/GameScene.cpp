@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include"MathUtilityFortext.h"
 
 GameScene::GameScene() {}
 
@@ -19,7 +20,11 @@ GameScene::~GameScene() {
 
 	delete mapChipField_;
 
-	delete enemy_;
+	for (Enemy* enemy : enemies_) {
+		delete enemy;
+	}
+
+	enemies_.clear();
 }
 
 void GameScene::Initialize() {
@@ -54,26 +59,32 @@ void GameScene::Initialize() {
 	// 自キャラの生成
 	player_ = new Player();
 
-	//敵の生成
-	enemy_ = new Enemy();
+	Vector3 pos = {20.0f, 1.0f, 0.0f};
+	Vector3 offset = {1.0f, 1.0f, 0.0f};
+
+	for (int32_t i = 0; i < 4; ++i) {
+		// 敵の生成
+		Enemy* newEnemy = new Enemy();
+
+		Vector3 enemyPosition = Add(pos, offset) * float(i);
+		// 敵の初期化
+		newEnemy->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);
+
+		enemies_.push_back(newEnemy);
+	}
 
 	// モデルデータの生成
 
 	//// 要素数
-	//const uint32_t kNumBlockHorizonal = 20;
-	//const uint32_t kNumBlockVirtical = 20;
+	// const uint32_t kNumBlockHorizonal = 20;
+	// const uint32_t kNumBlockVirtical = 20;
 
 	//// ブロック一個分の横幅
-	//const float kBlockWidth = 2.0f;
-	//const float kBlockHeight = 2.0f;
-
-	
+	// const float kBlockWidth = 2.0f;
+	// const float kBlockHeight = 2.0f;
 
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
-
-
-
 
 	// 天球モデルの生成
 	modelSkydome_ = Model::CreateFromOBJ("SkyDome", true);
@@ -87,20 +98,15 @@ void GameScene::Initialize() {
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
-	
+
 	GenerateBlocks();
 
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 
 	// 自キャラの初期化
-	player_->Initialize(model_, textureHandle_,&viewProjection_, playerPosition);
+	player_->Initialize(model_, textureHandle_, &viewProjection_, playerPosition);
 
 	player_->SetMapChipField(mapChipField_);
-
-
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(18, 18);
-	//敵の初期化
-	enemy_->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);
 
 	// カメラコントローラの初期化
 	cameraController_ = new CameraController();
@@ -110,15 +116,17 @@ void GameScene::Initialize() {
 
 	CameraController::Rect cameraArea = {12.0f, 100.0f - 12.0f, 6.0f, 6.0f};
 	cameraController_->SetMovableArea(cameraArea);
-
 }
 
 void GameScene::Update() {
 	// 自キャラの更新
 	player_->Update();
 
-	//敵の更新
-	enemy_->Update();
+	// 敵の更新
+
+	for (Enemy* enemy : enemies_) {
+		enemy->Update();
+	}
 
 	// ブロックの更新
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -154,6 +162,7 @@ void GameScene::Update() {
 
 	cameraController_->Update();
 
+	CheckAllCollisions();
 }
 
 void GameScene::Draw() {
@@ -189,7 +198,9 @@ void GameScene::Draw() {
 	// 自キャラの描画
 	player_->Draw();
 
-	enemy_->Draw();
+	for (Enemy* enemy : enemies_) {
+		enemy->Draw();
+	}
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -217,17 +228,16 @@ void GameScene::Draw() {
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
-
 #pragma endregion
 }
 
 void GameScene::GenerateBlocks() {
-//要素数　
+	// 要素数　
 	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
 	uint32_t numBlockHorizonal = mapChipField_->GetNumBlockHorizonal();
 
-	//要素数を変更する
-	//列数を設定
+	// 要素数を変更する
+	// 列数を設定
 
 	worldTransformBlocks_.resize(numBlockVirtical);
 	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
@@ -245,4 +255,30 @@ void GameScene::GenerateBlocks() {
 			}
 		}
 	}
+}
+
+void GameScene::CheckAllCollisions() { 
+	// 判定対象1と2の座標
+	AABB aabb1, aabb2;
+
+	// 自キャラの座標
+	aabb1 = player_->GetAABB();
+
+	// 自キャラと敵弾全ての当たり判定
+	for (Enemy* enemy : enemies_) {
+
+		// 敵弾の座標
+		aabb2 = enemy->GetAABB();
+
+		// AABB同士の交差判定
+		if (IsCollision(aabb1,aabb2)) {
+
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision(enemy);
+
+			// 敵弾の衝突時コールバックを呼び出す
+			enemy->OnCollision(player_);
+		}
+	}
+	
 }

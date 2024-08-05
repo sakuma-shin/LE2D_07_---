@@ -42,25 +42,25 @@ void Player::Update() {
 
 	CheckMapLanding(collisionMapInfo);
 
-	//bool landing = false;
+	// bool landing = false;
 
 	//// 地面との当たり判定
 	//// 下降中？
-	//if (velocity_.y < 0) {
+	// if (velocity_.y < 0) {
 	//	// Y座標が地面以下になったら着地
 	//	if (worldTransform_.translation_.y <= 1.0f) {
 	//		landing = true;
 	//	}
-	//}
+	// }
 
 	//// 接地判定
-	//if (onGround_) {
+	// if (onGround_) {
 	//	// ジャンプ開始
 	//	if (velocity_.y > 0.0f) {
 	//		// 空中状態に移行
 	//		onGround_ = false;
 	//	}
-	//} else {
+	// } else {
 	//	// 着地
 	//	if (landing) {
 	//		// めり込み排斥
@@ -72,7 +72,7 @@ void Player::Update() {
 	//		// 接地状態に移行
 	//		onGround_ = true;
 	//	}
-	//}
+	// }
 
 	AnimateTurn();
 
@@ -234,7 +234,7 @@ void Player::CheckHitMapBottom(CollisionMapInfo& info) {
 	}
 }
 
-//void Player::CheckHitMapRight(CollisionMapInfo& info) {
+// void Player::CheckHitMapRight(CollisionMapInfo& info) {
 //	if (velocity_.x > 0.0f) {
 //		return;
 //	}
@@ -271,7 +271,7 @@ void Player::CheckHitMapBottom(CollisionMapInfo& info) {
 //		info.move.x = std::max(0.0f, rect.right - worldTransform_.translation_.x - (kWidth / 2.0f + kBlank));
 //		info.hitWall = true;
 //	}
-//}
+// }
 
 void Player::CheckHitMapRight(CollisionMapInfo& info) {
 	// 右方向への移動があるか？
@@ -310,12 +310,11 @@ void Player::CheckHitMapRight(CollisionMapInfo& info) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(worldTransform_.translation_ + test);
 		// めり込み先ブロックの範囲矩形
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
-		info.move.x = std::min(0.0f,rect.left - worldTransform_.translation_.x + (kWidth / 2.0f+kBlank));
+		info.move.x = std::min(0.0f, rect.left - worldTransform_.translation_.x + (kWidth / 2.0f + kBlank));
 		// 右に当たったことを記録する
 		info.hitWall = true;
 	}
 }
-
 
 void Player::CheckHitMapLeft(CollisionMapInfo& info) {
 	// 左方向への移動があるか？
@@ -354,17 +353,13 @@ void Player::CheckHitMapLeft(CollisionMapInfo& info) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(worldTransform_.translation_ + test);
 		// めり込み先ブロックの範囲矩形
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
-		info.move.x = std::max(0.0f,rect.left - worldTransform_.translation_.x + (kWidth / 2.0f-kBlank));
+		info.move.x = std::max(0.0f, rect.left - worldTransform_.translation_.x + (kWidth / 2.0f - kBlank));
 		// 左に当たったことを記録する
 		info.hitWall = true;
 	}
 }
 
-
-
-
-
-//void Player::CheckHitMapLeft(CollisionMapInfo& info) {
+// void Player::CheckHitMapLeft(CollisionMapInfo& info) {
 //	if (velocity_.x > 0.0f) {
 //		return;
 //	}
@@ -403,7 +398,7 @@ void Player::CheckHitMapLeft(CollisionMapInfo& info) {
 //		info.move.x = std::min(0.0f, rect.left - worldTransform_.translation_.x + (kWidth / 2.0f + kBlank));
 //		info.hitWall = true;
 //	}
-//}
+// }
 
 Vector3 Player::CornerPosition(const Vector3& center, Corner corner) {
 	Vector3 offsetTable[kNumCorner] = {
@@ -456,7 +451,7 @@ void Player::CheckMapLanding(CollisionMapInfo& info) {
 			indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightBottom] + kShift);
 			mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 
-			 if (mapChipType == MapChipType::kBlock) {
+			if (mapChipType == MapChipType::kBlock) {
 				hit = true;
 			}
 
@@ -474,10 +469,10 @@ void Player::CheckMapLanding(CollisionMapInfo& info) {
 			velocity_.x *= (1.0f - kAttenuationLanding);
 			// Y速度をゼロにする
 			velocity_.y = 0.0f;
-		}/* else {
-		    velocity_.y = kGravityAcceleration;
-		    velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
-		}*/
+		} /* else {
+		     velocity_.y = kGravityAcceleration;
+		     velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
+		 }*/
 	}
 }
 
@@ -504,4 +499,37 @@ void Player::AnimateTurn() {
 		// 自キャラの角度を設定する
 		worldTransform_.rotation_.y = EaseInOut(destinationRotationY, turnFirstRotationY_, turnTimer_ / kTimeTurn);
 	}
+}
+
+Vector3 Player::GetWorldPosition() {
+	Vector3 worldPos;
+
+	// ワールド行列の平行移動成分を取得
+	// ワールド行列のx
+	worldPos.x = worldTransform_.translation_.x;
+
+	// ワールド行列のy
+	worldPos.y = worldTransform_.translation_.y;
+
+	// ワールド行列のz
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
+}
+
+AABB Player::GetAABB() {
+	Vector3 worldPos = GetWorldPosition();
+	AABB aabb;
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}
+
+void Player::OnCollision(const Enemy* enemy) {
+
+	(void)enemy;
+
+	velocity_.y += 0.1f;
 }

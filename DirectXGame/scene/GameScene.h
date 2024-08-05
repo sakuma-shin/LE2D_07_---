@@ -15,6 +15,7 @@
 #include"CameraController.h"
 #include"Enemy.h"
 
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -48,6 +49,8 @@ public: // メンバ関数
 
 	void GenerateBlocks();
 
+	void CheckAllCollisions();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -71,7 +74,7 @@ private: // メンバ変数
 	//自キャラ
 	Player* player_ = nullptr;
 
-	Enemy* enemy_ = nullptr;
+	std::list<Enemy*> enemies_;
 
 	Model* modelBlock_ = nullptr;
 

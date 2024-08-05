@@ -12,6 +12,7 @@
 #include"MathUtilityFortext.h"
 
 class MapChipField;
+class Enemy;
 
 class Player {
 public:
@@ -81,6 +82,12 @@ public:
 	void CheckHitWall(const CollisionMapInfo& info);
 
 	void AnimateTurn();
+
+	Vector3 GetWorldPosition();
+
+	AABB GetAABB();
+
+	void OnCollision(const Enemy* enemy);
 
 private:
 

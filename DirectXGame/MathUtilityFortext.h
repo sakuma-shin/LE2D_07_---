@@ -3,6 +3,11 @@
 #include"Matrix4x4.h"
 #include<cmath>
 
+struct AABB {
+	Vector3 min; // 最小点
+	Vector3 max; // 最小点
+};
+
 // 加算
 Vector3 Add(const Vector3& v1, const Vector3& v2);
 
@@ -29,6 +34,8 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 Vector3 Lerp(const Vector3& a, const Vector3& b, float t);
 
 Vector3 Multiply(float scalar, const Vector3& v);
+
+bool IsCollision(const AABB& a, const AABB& b);
 
 //代入演算子オーバーロード
 //Vector3の掛け算

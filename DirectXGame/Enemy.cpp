@@ -36,3 +36,33 @@ void Enemy::Update() {
 
 void Enemy::Draw() { model_->Draw(worldTransform_, *viewprojection_, textureHandle_); }
 
+AABB Enemy::GetAABB() { 
+	Vector3 worldPos = GetWorldPosition();
+	AABB aabb;
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}
+
+Vector3 Enemy::GetWorldPosition() {
+	Vector3 worldPos;
+
+	// ワールド行列の平行移動成分を取得
+	// ワールド行列のx
+	worldPos.x = worldTransform_.translation_.x;
+
+	// ワールド行列のy
+	worldPos.y = worldTransform_.translation_.y;
+
+	// ワールド行列のz
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
+}
+
+void Enemy::OnCollision(const Player* player) { 
+	(void)player; 
+}
+

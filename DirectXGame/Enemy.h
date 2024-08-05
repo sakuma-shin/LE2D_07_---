@@ -1,4 +1,6 @@
 #include "Player.h"
+
+class Player;
 class Enemy {
 public:
 	void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection, const Vector3& position);
@@ -6,6 +8,12 @@ public:
 	void Update();
 
 	void Draw();
+
+	AABB GetAABB();
+
+	Vector3 GetWorldPosition();
+
+	void OnCollision(const Player* player);
 
 private:
 
@@ -35,6 +43,11 @@ private:
 	static inline const float kWalkMotionTime = 1.0f;
 
 	float walkTimer_ = 0.0f;
+
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
+
+
 
 
 };

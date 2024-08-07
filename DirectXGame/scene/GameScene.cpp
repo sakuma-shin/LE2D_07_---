@@ -25,6 +25,11 @@ GameScene::~GameScene() {
 	}
 
 	enemies_.clear();
+
+	if (deathParticles_) {
+
+		delete particleModel_;
+	}
 }
 
 void GameScene::Initialize() {
@@ -73,6 +78,7 @@ void GameScene::Initialize() {
 		enemies_.push_back(newEnemy);
 	}
 
+	
 	// モデルデータの生成
 
 	//// 要素数
@@ -107,6 +113,13 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_, &viewProjection_, playerPosition);
 
 	player_->SetMapChipField(mapChipField_);
+
+	// 生成処理
+	deathParticles_ = new DeathParticle;
+
+	deathParticles_->Initialize(particleModel_, &viewProjection_, playerPosition);
+
+
 
 	// カメラコントローラの初期化
 	cameraController_ = new CameraController();
@@ -209,6 +222,11 @@ void GameScene::Draw() {
 
 			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
+	}
+
+	if (deathParticles_) {
+
+		deathParticles_->Draw();
 	}
 
 	skydome_->Draw();

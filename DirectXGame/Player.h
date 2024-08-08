@@ -89,6 +89,8 @@ public:
 
 	void OnCollision(const Enemy* enemy);
 
+	bool IsDead() const { return isDead_; }
+
 private:
 
 	enum class LRDirection { 
@@ -141,4 +143,6 @@ private:
 
 	//マップチップによるフィールド
 	MapChipField* mapChipField_ = nullptr;
+
+	bool isDead_ = false;
 };

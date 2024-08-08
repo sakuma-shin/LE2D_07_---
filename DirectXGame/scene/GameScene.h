@@ -53,7 +53,21 @@ public: // メンバ関数
 
 	void CheckAllCollisions();
 
+	void ChangePhase();
+
+	bool IsFinished() const { return finished_; }
+
 private: // メンバ変数
+
+	enum class Phase {
+		kPlay,
+		kDeath
+	};
+
+	Phase phase_;
+
+	
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -104,6 +118,8 @@ private: // メンバ変数
 	CameraController* cameraController_;
 
 	DeathParticle* deathParticles_ = nullptr;
+
+	bool finished_ = false;
 	
 	/// <summary>
 	/// ゲームシーン用

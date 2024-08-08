@@ -171,7 +171,23 @@ Vector3 Multiply(float scalar, const Vector3& v) {
 }
 
 
+Vector3 TransForm(const Vector3& vector3, const Matrix4x4& matrix) {
+	Vector3 result;
 
+	result.x = vector3.x * matrix.m[0][0] + vector3.y * matrix.m[1][0] + vector3.z * matrix.m[2][0] + matrix.m[3][0]; // x成分の変換
+
+	result.y = vector3.x * matrix.m[0][1] + vector3.y * matrix.m[1][1] + vector3.z * matrix.m[2][1] + matrix.m[3][1]; // y成分の変換
+
+	result.z = vector3.x * matrix.m[0][2] + vector3.y * matrix.m[1][2] + vector3.z * matrix.m[2][2] + matrix.m[3][2]; // z成分の変換
+
+	float length = vector3.x * matrix.m[0][3] + vector3.y * matrix.m[1][3] + vector3.z * matrix.m[2][3] + matrix.m[3][3];
+	if (length != 0.0f) {
+		result.x /= length;
+		result.y /= length;
+		result.z /= length;
+	}
+	return result;
+}
 
 
 Vector3& operator*=(Vector3& v, float s) { 

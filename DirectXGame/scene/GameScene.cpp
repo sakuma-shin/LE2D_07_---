@@ -51,6 +51,8 @@ void GameScene::Initialize() {
 
 	modelBlock_ = Model::CreateFromOBJ("block");
 
+	particleModel_ = Model::CreateFromOBJ("deathParticle");
+
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	// ビュープロジェクションンの初期化
@@ -153,6 +155,12 @@ void GameScene::Update() {
 	}
 
 	debugCamera_->Update();
+
+	// デスパーティクルが存在するなら
+	if (deathParticles_) {
+
+		deathParticles_->Update();
+	}
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0)) {

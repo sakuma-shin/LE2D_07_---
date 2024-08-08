@@ -45,7 +45,7 @@ void DeathParticle::Update() {
 		Matrix4x4 matrixRotation = MakeRotateZMatrix(angle);
 
 		// 基本ベクトルを回転させて速度ベクトルを得る
-		velocity = Transform(velocity, matrixRotation);
+		velocity = TransForm(velocity, matrixRotation);
 
 		// 移動処理
 		worldTransforms_[i].translation_ += velocity;

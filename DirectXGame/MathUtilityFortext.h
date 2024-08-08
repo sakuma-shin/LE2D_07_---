@@ -16,6 +16,9 @@ Vector3 Add2(const Vector3 v1, const Vector3 v2);
 // 積
 Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 
+// 座標変換
+Vector3 TransForm(const Vector3& vector3, const Matrix4x4& matrix);
+
 // 1.X軸回転行列
 Matrix4x4 MakeRotateXMatrix(float radian);
 
@@ -34,6 +37,8 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 Vector3 Lerp(const Vector3& a, const Vector3& b, float t);
 
 Vector3 Multiply(float scalar, const Vector3& v);
+
+Vector3 TransForm(const Vector3& vector3, const Matrix4x4& matrix);
 
 bool IsCollision(const AABB& a, const AABB& b);
 

@@ -266,6 +266,7 @@ void GameScene::Draw() {
 
 	case Phase::kDeath:
 
+		
 		break;
 	}
 

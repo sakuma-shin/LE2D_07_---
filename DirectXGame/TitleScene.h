@@ -15,12 +15,6 @@ public:
 
 	void Draw();
 
-	Model* GetModel() { return model_; }
-
-	uint32_t GetTextureHandle() { return textureHandle_; }
-
-	ViewProjection* GetViewProjecton() { return viewprojection_; }
-
 	bool IsFinished() const { return finished_; }
 
 private:
@@ -36,7 +30,7 @@ private:
 		// ワールド変換データ
 	WorldTransform worldTransform_;
 
-	ViewProjection* viewprojection_ = nullptr;
+	ViewProjection viewProjection_;
 
 	uint32_t textureHandle_ = 0;
 

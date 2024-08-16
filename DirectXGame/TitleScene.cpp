@@ -15,7 +15,7 @@ void TitleScene::Intialize() {
 
 	model_ = Model::CreateFromOBJ("titleFont"); 
 	textureHandle_ = TextureManager::Load("white1x1.png");
-	viewprojection_ ->Initialize();
+	viewProjection_.Initialize();
 	worldTransform_.Initialize();
 }
 
@@ -37,7 +37,7 @@ void TitleScene::Update() {
 
 	Model::PreDraw(commandList);
 
-	model_->Draw(worldTransform_, *viewprojection_, textureHandle_);
+	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 
 	Model::PostDraw();
  }

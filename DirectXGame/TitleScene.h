@@ -4,7 +4,12 @@
 class TitleScene {
 
 public:
-	void Intialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection);
+
+	TitleScene();
+
+	~TitleScene();
+
+	void Intialize();
 
 	void Update();
 
@@ -19,6 +24,12 @@ public:
 	bool IsFinished() const { return finished_; }
 
 private:
+
+	DirectXCommon* dxCommon_ = nullptr;
+	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
+
+
 	// 終了フラグ
 	bool finished_ = false;
 
@@ -30,5 +41,5 @@ private:
 	uint32_t textureHandle_ = 0;
 
 	Model* model_ = nullptr;
-	DirectXCommon* dxCommon_ = nullptr;
+
 };

@@ -86,11 +86,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	scene = Scene::kTitle;
 	titleScene = new TitleScene;
 
-	uint32_t titleTextureHandle = titleScene->GetTextureHandle();
-	Model* titleModel = titleScene->GetModel();
-	ViewProjection* viewProjection = titleScene->GetViewProjecton();
 
-	titleScene->Intialize(titleModel,titleTextureHandle,viewProjection);
+	titleScene->Intialize();
 	/*titleScene->Update();
 	titleScene->Draw();*/
 

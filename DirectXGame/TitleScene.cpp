@@ -2,11 +2,20 @@
 
 
 
-void TitleScene::Intialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection) { 
+TitleScene::TitleScene() {}
 
-	model = Model::CreateFromOBJ("titleFont"); 
-	textureHandle = TextureManager::Load("white1x1.png");
-	viewprojection_ = viewProjection;
+TitleScene::~TitleScene() { delete model_; }
+
+void TitleScene::Intialize() { 
+
+	dxCommon_ = DirectXCommon::GetInstance();
+	input_ = Input::GetInstance();
+	audio_ = Audio::GetInstance();
+
+
+	model_ = Model::CreateFromOBJ("titleFont"); 
+	textureHandle_ = TextureManager::Load("white1x1.png");
+	viewprojection_ ->Initialize();
 	worldTransform_.Initialize();
 }
 
@@ -19,6 +28,10 @@ void TitleScene::Update() {
 }
 
  void TitleScene::Draw() {
+
+	 #pragma endregion
+
+#pragma region 3Dオブジェクト描画
 	 // コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 

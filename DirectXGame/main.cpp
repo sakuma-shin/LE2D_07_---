@@ -181,9 +181,9 @@ void ChangeScene() {
 
 			gameScene = nullptr;
 
-			titleScene = new TitleScene;
+			titleScene = new TitleScene();
 
-			
+			titleScene->Intialize();
 		}
 
 		break;

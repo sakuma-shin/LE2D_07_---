@@ -64,9 +64,15 @@ private: // メンバ変数
 		kDeath
 	};
 
+	enum class Stage { 
+		kStage1, 
+		kStage2,
+		kStage3
+	};
+
 	Phase phase_;
 
-	
+	Stage stage_;
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;

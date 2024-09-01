@@ -67,13 +67,20 @@ void GameScene::Initialize() {
 	player_ = new Player();
 
 	Vector3 pos = {20.0f, 1.0f, 0.0f};
-	Vector3 offset = {1.0f, 1.0f, 0.0f};
 
-	for (int32_t i = 0; i < 4; ++i) {
+	
+	float offsetY[32];
+	Vector3 offset[16];
+	for (int32_t i = 0; i < 16; ++i) {
+		offsetY[i] = float(rand() % 4);
+		offset[i] = {0.05f, offsetY[i], 0.0f};
+	}
+
+	for (int32_t i = 0; i < 16; ++i) {
 		// 敵の生成
 		Enemy* newEnemy = new Enemy();
 
-		Vector3 enemyPosition = Add(pos, offset) * float(i);
+		Vector3 enemyPosition = Add(pos, offset[i]) * float(i);
 		// 敵の初期化
 		newEnemy->Initialize(enemyModel_, enemyTextureHandle_, &viewProjection_, enemyPosition);
 
@@ -127,6 +134,8 @@ void GameScene::Initialize() {
 	cameraController_->Reset();
 
 	phase_ = Phase::kPlay;
+
+	stage_ = Stage::kStage1;
 }
 
 void GameScene::Update() {
